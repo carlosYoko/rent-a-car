@@ -8,13 +8,9 @@ namespace RentACar.Domain.Vehicles
         {
         }
 
-        public string? Model { get; private set; }
-        public string? Vin { get; private set; }
-        public string? Direction { get; private set; }
-        public string? Department { get; private set; }
-        public string? Province { get; private set; }
-        public string? City { get; set; }
-        public string? Country { get; private set; }
+        public Model? Model { get; private set; }
+        public Vin? Vin { get; private set; }
+        public Direction? Direction { get; private set; }
         public decimal Amount { get; private set; }
         public string? TypeAmount { get; private set; }
         public decimal Maintenance { get; private set; }
