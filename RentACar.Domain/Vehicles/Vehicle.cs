@@ -1,8 +1,13 @@
-﻿namespace RentACar.Domain.Vehicles
+﻿using RentACar.Domain.Abstractions;
+
+namespace RentACar.Domain.Vehicles
 {
-    public sealed class Vehicle
+    public sealed class Vehicle : Entity
     {
-        public Guid id { get; private set; }
+        public Vehicle(Guid id) : base(id)
+        {
+        }
+
         public string? Model { get; private set; }
         public string? Vin { get; private set; }
         public string? Direction { get; private set; }
