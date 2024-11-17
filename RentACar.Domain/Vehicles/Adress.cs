@@ -1,8 +1,8 @@
 ﻿namespace RentACar.Domain.Vehicles
 {
-    public record Direction
+    public record Adress
     {
-        string? Street;
+        string? Direction;
         string? Department;
         string? Province;
         string? City;
