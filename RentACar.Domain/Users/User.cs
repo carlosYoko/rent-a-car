@@ -1,4 +1,5 @@
 ﻿using RentACar.Domain.Abstractions;
+using RentACar.Domain.Users.Events;
 
 namespace RentACar.Domain.Users
 {
@@ -23,7 +24,7 @@ namespace RentACar.Domain.Users
         public static User Create(Name name, LastName lastName, Email email)
         {
             var user = new User(Guid.NewGuid(), name, lastName, email);
-
+            user.RaiseDomainEvent(new UserCreateDomainEvent(user.Id));
             return user;
         }
     }
