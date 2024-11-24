@@ -77,5 +77,14 @@ namespace RentACar.Domain.Rents
             return rent;
         }
 
+        public Result Confirm(DateTime utcNow)
+        {
+            if (Status != RentStatus.Reserved)
+            {
+
+            }
+
+            return Result.Success();
+        }
     }
 }
