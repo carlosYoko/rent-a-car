@@ -29,7 +29,7 @@ namespace RentACar.Domain.Vehicles
         public Adress? Adress { get; private set; }
         public Currency? Price { get; private set; }
         public Currency? Maintenance { get; private set; }
-        public DateTime? DateLastRent { get; private set; }
+        public DateTime? DateLastRent { get; internal set; }
         public List<Accessory> Accessories { get; private set; } = new List<Accessory>();
     }
 }

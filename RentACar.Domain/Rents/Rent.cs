@@ -48,15 +48,18 @@ namespace RentACar.Domain.Rents
         #endregion
 
         public static Rent Book(
-            Guid vehicleId,
+            Vehicle vehicle,
             Guid userId,
             DateRange duration,
             DateTime dateCreation,
-            PriceDetail priceDetail)
+            PriceService priceService
+            )
         {
+            var priceDetail = priceService.CalculatePrice(vehicle, duration);
+
             var rent = new Rent(
                 Guid.NewGuid(),
-                vehicleId,
+                vehicle.Id,
                 userId,
                 duration,
                 priceDetail.PricePeriod,
@@ -64,9 +67,12 @@ namespace RentACar.Domain.Rents
                 priceDetail.Accessories,
                 priceDetail.PriceTotal,
                 RentStatus.Reserved,
-                dateCreation);
+                dateCreation
+                );
 
             rent.RaiseDomainEvent(new RentReservedDoaminEvent(rent.Id));
+
+            vehicle.DateLastRent = dateCreation;
 
             return rent;
         }
