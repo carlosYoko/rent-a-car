@@ -81,9 +81,34 @@ namespace RentACar.Domain.Rents
         {
             if (Status != RentStatus.Reserved)
             {
-
+                return Result.Failure(RentErrors.NotReserved);
             }
 
+            Status = RentStatus.Success;
+            DateConfirmation = utcNow;
+
+            RaiseDomainEvent(new RentConfirmedDomainEvent(Id));
+            return Result.Success();
+        }
+
+        public Result Reject(DateTime utcNow)
+        {
+            if (Status != RentStatus.Reserved)
+            {
+                return Result.Failure(RentErrors.NotReserved);
+            };
+
+            var currentDate = DateOnly.FromDateTime(utcNow);
+
+            if (currentDate > Duration.Start)
+            {
+                return Result.Failure(RentErrors.AlreadyStarted);
+            }
+
+            Status = RentStatus.Refused;
+            DateCancelation = utcNow;
+
+            RaiseDomainEvent(new RentRejectedDomainEvent(Id));
             return Result.Success();
         }
     }
