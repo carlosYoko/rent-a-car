@@ -1,19 +1,19 @@
 ﻿namespace RentACar.Domain.Vehicles
 {
-    public record Currency(decimal amount, CurrencyType currencyType)
+    public record Currency(decimal Amount, CurrencyType CurrencyType)
     {
         public static Currency operator +(Currency first, Currency second)
         {
-            if (first.currencyType != second.currencyType)
+            if (first.CurrencyType != second.CurrencyType)
             {
                 throw new InvalidOperationException("EL tipo de moneda debe ser el mismo");
             }
 
-            return new Currency(first.amount + second.amount, first.currencyType);
+            return new Currency(first.Amount + second.Amount, first.CurrencyType);
         }
 
         public static Currency Zero() => new(0, CurrencyType.None);
-        public static Currency Zero(CurrencyType currencyType) => new(0, currencyType);
-        public bool IsZero() => this == Zero(currencyType);
+        public static Currency Zero(CurrencyType CurrencyType) => new(0, CurrencyType);
+        public bool IsZero() => this == Zero(CurrencyType);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using RentACar.Domain.Abstractions;
+using RentACar.Domain.Rents.Events;
 using RentACar.Domain.Vehicles;
 
 namespace RentACar.Domain.Rents
@@ -30,6 +31,7 @@ namespace RentACar.Domain.Rents
             DateCreate = dateCreate;
         }
 
+        #region /*props*/
         public Guid VehicleId { get; private set; }
         public Guid UserId { get; private set; }
         public Currency PriceByPeriod { get; private set; }
@@ -43,5 +45,30 @@ namespace RentACar.Domain.Rents
         public DateTime DateAnulation { get; private set; }
         public DateTime DateCompleted { get; private set; }
         public DateTime DateCancelation { get; private set; }
+        #endregion
+
+        public static Rent Book(
+            Guid vehicleId,
+            Guid userId,
+            DateRange duration,
+            DateTime dateCreation,
+            PriceDetail priceDetail)
+        {
+            var rent = new Rent(
+                Guid.NewGuid(),
+                vehicleId,
+                userId,
+                duration,
+                priceDetail.PricePeriod,
+                priceDetail.Maintentance,
+                priceDetail.Accessories,
+                priceDetail.PriceTotal,
+                RentStatus.Reserved,
+                dateCreation);
+
+            rent.RaiseDomainEvent(new RentReservedDoaminEvent(rent.Id));
+
+            return rent;
+        }
     }
 }
