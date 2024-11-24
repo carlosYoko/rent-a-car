@@ -76,5 +76,6 @@ namespace RentACar.Domain.Rents
 
             return rent;
         }
+
     }
 }
