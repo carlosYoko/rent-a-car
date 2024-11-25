@@ -11,8 +11,8 @@ namespace RentACar.Domain.Review
             Guid vehicleId,
             Guid rentId,
             Guid userId,
-            int rating,
-            string comment,
+            Rating rating,
+            Comment comment,
             DateTime dateCreation
             ) : base(id)
         {
@@ -27,14 +27,14 @@ namespace RentACar.Domain.Review
         public Guid VehicleId { get; private set; }
         public Guid RentId { get; private set; }
         public Guid UserId { get; private set; }
-        public int Rating { get; private set; }
-        public string? Comment { get; private set; }
+        public Rating Rating { get; private set; }
+        public Comment? Comment { get; private set; }
         public DateTime DateCreation { get; private set; }
 
         public static Result<Review> Create(
             Rent rent,
-            int rating,
-            string comment,
+            Rating rating,
+            Comment comment,
             DateTime dateCreation
             )
         {
