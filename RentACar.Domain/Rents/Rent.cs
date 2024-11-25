@@ -1,5 +1,6 @@
 ﻿using RentACar.Domain.Abstractions;
 using RentACar.Domain.Rents.Events;
+using RentACar.Domain.Shared;
 using RentACar.Domain.Vehicles;
 
 namespace RentACar.Domain.Rents

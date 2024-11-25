@@ -1,4 +1,4 @@
-﻿namespace RentACar.Domain.Vehicles
+﻿namespace RentACar.Domain.Shared
 {
     public record CurrencyType
     {

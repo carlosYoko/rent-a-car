@@ -1,4 +1,4 @@
-﻿using RentACar.Domain.Vehicles;
+﻿using RentACar.Domain.Shared;
 
 namespace RentACar.Domain.Rents
 {
