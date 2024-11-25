@@ -84,7 +84,7 @@ namespace RentACar.Domain.Rents
                 return Result.Failure(RentErrors.NotReserved);
             }
 
-            Status = RentStatus.Success;
+            Status = RentStatus.Confirmed;
             DateConfirmation = utcNow;
 
             RaiseDomainEvent(new RentConfirmedDomainEvent(Id));
@@ -109,6 +109,20 @@ namespace RentACar.Domain.Rents
             DateCancelation = utcNow;
 
             RaiseDomainEvent(new RentRejectedDomainEvent(Id));
+            return Result.Success();
+        }
+
+        public Result Complete(DateTime utcNow)
+        {
+            if (Status != RentStatus.Confirmed)
+            {
+                return Result.Failure(RentErrors.NotConfirmed);
+            };
+
+            Status = RentStatus.Completed;
+            DateCompleted = utcNow;
+
+            RaiseDomainEvent(new RentCompletedDomainEvent(Id));
             return Result.Success();
         }
     }
