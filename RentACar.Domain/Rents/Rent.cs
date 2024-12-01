@@ -67,11 +67,11 @@ namespace RentACar.Domain.Rents
                 priceDetail.Maintentance,
                 priceDetail.Accessories,
                 priceDetail.PriceTotal,
-                RentStatus.Reserved,
+                RentStatus.Booked,
                 dateCreation
                 );
 
-            rent.RaiseDomainEvent(new RentReservedDoaminEvent(rent.Id));
+            rent.RaiseDomainEvent(new RentBookedDoaminEvent(rent.Id));
 
             vehicle.DateLastRent = dateCreation;
 
@@ -80,7 +80,7 @@ namespace RentACar.Domain.Rents
 
         public Result Confirm(DateTime utcNow)
         {
-            if (Status != RentStatus.Reserved)
+            if (Status != RentStatus.Booked)
             {
                 return Result.Failure(RentErrors.NotReserved);
             }
@@ -94,7 +94,7 @@ namespace RentACar.Domain.Rents
 
         public Result Reject(DateTime utcNow)
         {
-            if (Status != RentStatus.Reserved)
+            if (Status != RentStatus.Booked)
             {
                 return Result.Failure(RentErrors.NotReserved);
             };

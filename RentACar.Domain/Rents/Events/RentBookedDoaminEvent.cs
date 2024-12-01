@@ -2,6 +2,6 @@
 
 namespace RentACar.Domain.Rents.Events
 {
-    public sealed record RentReservedDoaminEvent(Guid RentId) : IDomainEvent;
+    public sealed record RentBookedDoaminEvent(Guid RentId) : IDomainEvent;
 
 }

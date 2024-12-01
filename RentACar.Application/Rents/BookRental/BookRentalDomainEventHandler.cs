@@ -6,7 +6,7 @@ using RentACar.Domain.Users;
 
 namespace RentACar.Application.Rents.BookRental
 {
-    internal sealed class BookRentalDomainEventHandler : INotificationHandler<RentReservedDoaminEvent>
+    internal sealed class BookRentalDomainEventHandler : INotificationHandler<RentBookedDoaminEvent>
     {
         private readonly IRentRepository _rentRepository;
         private readonly IUserRepository _userRepository;
@@ -19,7 +19,7 @@ namespace RentACar.Application.Rents.BookRental
             _emailService = emailService;
         }
 
-        public async Task Handle(RentReservedDoaminEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(RentBookedDoaminEvent notification, CancellationToken cancellationToken)
         {
             var rent = await _rentRepository.GetByIdAsync(notification.RentId, cancellationToken);
             if (rent == null)
