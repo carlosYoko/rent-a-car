@@ -1,4 +1,5 @@
-﻿using RentACar.Application.Abstractions.Messaging;
+﻿using RentACar.Application.Abstractions.Clock;
+using RentACar.Application.Abstractions.Messaging;
 using RentACar.Domain.Abstractions;
 using RentACar.Domain.Rents;
 using RentACar.Domain.Users;
@@ -6,7 +7,7 @@ using RentACar.Domain.Vehicles;
 
 namespace RentACar.Application.Rents.BookRental
 {
-    internal sealed class BookRentalHandler : ICommandHandler<BookRentalCommand, Guid>
+    internal sealed class BookRentalCommandHandler : ICommandHandler<BookRentalCommand, Guid>
     {
         private readonly IUserRepository _userRepository;
         private readonly IVehicleRepository _vehicleRepository;
@@ -14,14 +15,16 @@ namespace RentACar.Application.Rents.BookRental
         private readonly PriceService _priceService;
         private readonly IServiceProvider _serviceProvider;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
-        public BookRentalHandler(
+        public BookRentalCommandHandler(
             IUserRepository userRepository,
             IVehicleRepository vehicleRepository,
             IRentRepository rentRepository,
             PriceService priceService,
             IServiceProvider serviceProvider,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IDateTimeProvider dateTimeProvider)
         {
             _userRepository = userRepository;
             _vehicleRepository = vehicleRepository;
@@ -29,6 +32,7 @@ namespace RentACar.Application.Rents.BookRental
             _priceService = priceService;
             _serviceProvider = serviceProvider;
             _unitOfWork = unitOfWork;
+            _dateTimeProvider = dateTimeProvider;
         }
 
         public async Task<Result<Guid>> Handle(BookRentalCommand request, CancellationToken cancellationToken)
@@ -54,7 +58,7 @@ namespace RentACar.Application.Rents.BookRental
                 return Result.Failure<Guid>(RentErrors.Overlap);
             }
 
-            var rent = Rent.Book(vehicle, user.Id, duration, DateTime.UtcNow, _priceService);
+            var rent = Rent.Book(vehicle, user.Id, duration, _dateTimeProvider.currentTime, _priceService);
 
             _rentRepository.Add(rent);
 
