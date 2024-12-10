@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using RentACar.Application.Abstractions.Behaviours;
 using RentACar.Domain.Rents;
 
 namespace RentACar.Application
@@ -10,6 +11,7 @@ namespace RentACar.Application
             services.AddMediatR(configuration =>
             {
                 configuration.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
+                configuration.AddOpenBehavior(typeof(LogginBehaviour<,>));
             });
 
             services.AddTransient<PriceService>();
