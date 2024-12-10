@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using RentACar.Application.Abstractions.Behaviours;
 using RentACar.Domain.Rents;
 
@@ -12,7 +13,10 @@ namespace RentACar.Application
             {
                 configuration.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
                 configuration.AddOpenBehavior(typeof(LogginBehaviour<,>));
+                configuration.AddOpenBehavior(typeof(ValidationBehaviour<,>));
             });
+
+            services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
 
             services.AddTransient<PriceService>();
 
