@@ -5,7 +5,9 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentACar.Domain", "RentACar.Domain\RentACar.Domain.csproj", "{15F7F4CA-1B59-4E8B-BC6E-E64DDFEB4DEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentACar.Application", "RentACar.Application\RentACar.Application.csproj", "{F95D9DB2-35F2-4487-A78D-C274EF1A954D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentACar.Application", "RentACar.Application\RentACar.Application.csproj", "{F95D9DB2-35F2-4487-A78D-C274EF1A954D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentACar.Infrastructure", "RentACar.Infrastructure\RentACar.Infrastructure.csproj", "{623453C7-5D50-4F76-97E4-1F70F45D8472}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{F95D9DB2-35F2-4487-A78D-C274EF1A954D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F95D9DB2-35F2-4487-A78D-C274EF1A954D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F95D9DB2-35F2-4487-A78D-C274EF1A954D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{623453C7-5D50-4F76-97E4-1F70F45D8472}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{623453C7-5D50-4F76-97E4-1F70F45D8472}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{623453C7-5D50-4F76-97E4-1F70F45D8472}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{623453C7-5D50-4F76-97E4-1F70F45D8472}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
