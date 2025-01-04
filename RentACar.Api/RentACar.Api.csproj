@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RentACar.Application\RentACar.Application.csproj" />
+    <ProjectReference Include="..\RentACar.Infrastructure\RentACar.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
