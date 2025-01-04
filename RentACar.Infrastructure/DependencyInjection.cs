@@ -3,8 +3,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RentACar.Application.Abstractions.Clock;
 using RentACar.Application.Abstractions.Email;
+using RentACar.Domain.Abstractions;
+using RentACar.Domain.Rents;
+using RentACar.Domain.Users;
+using RentACar.Domain.Vehicles;
 using RentACar.Infrastructure.Clock;
 using RentACar.Infrastructure.Email;
+using RentACar.Infrastructure.Repositories;
 
 namespace RentACar.Infrastructure
 {
@@ -16,11 +21,15 @@ namespace RentACar.Infrastructure
             services.AddTransient<IEmailService, EmailService>();
 
             var connectionString = configuration.GetConnectionString("Database") ?? throw new ArgumentNullException(nameof(configuration));
-
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
             });
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IVehicleRepository, VehicleRepository>();
+            services.AddScoped<IRentRepository, RentRepository>();
+            services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
             return services;
         }
