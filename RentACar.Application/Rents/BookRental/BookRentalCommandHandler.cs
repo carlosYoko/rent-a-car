@@ -1,5 +1,6 @@
 ﻿using RentACar.Application.Abstractions.Clock;
 using RentACar.Application.Abstractions.Messaging;
+using RentACar.Application.Exceptions;
 using RentACar.Domain.Abstractions;
 using RentACar.Domain.Rents;
 using RentACar.Domain.Users;
@@ -58,13 +59,17 @@ namespace RentACar.Application.Rents.BookRental
                 return Result.Failure<Guid>(RentErrors.Overlap);
             }
 
-            var rent = Rent.Book(vehicle, user.Id, duration, _dateTimeProvider.currentTime, _priceService);
-
-            _rentRepository.Add(rent);
-
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            return rent.Id;
+            try
+            {
+                var rent = Rent.Book(vehicle, user.Id, duration, _dateTimeProvider.currentTime, _priceService);
+                _rentRepository.Add(rent);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+                return rent.Id;
+            }
+            catch (ConcurrencyException ex)
+            {
+                return Result.Failure<Guid>(RentErrors.Overlap);
+            }
         }
     }
 }

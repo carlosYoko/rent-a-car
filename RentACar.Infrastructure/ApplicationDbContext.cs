@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using RentACar.Application.Exceptions;
 using RentACar.Domain.Abstractions;
 
 namespace RentACar.Infrastructure
@@ -21,11 +22,16 @@ namespace RentACar.Infrastructure
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            var result = await base.SaveChangesAsync(cancellationToken);
-
-            await PublishDomainEventsAsync();
-
-            return result;
+            try
+            {
+                var result = await base.SaveChangesAsync(cancellationToken);
+                await PublishDomainEventsAsync();
+                return result;
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                throw new ConcurrencyException("Error de concurrencia", ex);
+            }
         }
 
         private async Task PublishDomainEventsAsync()

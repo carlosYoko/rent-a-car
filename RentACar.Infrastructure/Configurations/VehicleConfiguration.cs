@@ -22,6 +22,7 @@ namespace RentACar.Infrastructure.Configurations
             {
                 priceBuilder.Property(currency => currency.CurrencyType).HasConversion(currencyType => currencyType.Code, code => CurrencyType.FromCode(code!));
             });
+            builder.Property<uint>("Version").IsRowVersion();
         }
     }
 }
