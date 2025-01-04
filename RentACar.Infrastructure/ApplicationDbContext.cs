@@ -1,14 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using RentACar.Domain.Abstractions;
 
 namespace RentACar.Infrastructure
 {
     public sealed class ApplicationDbContext : DbContext, IUnitOfWork
     {
+        private readonly IPublisher _publisher;
 
-        public ApplicationDbContext(DbContextOptions options) : base(options)
+        public ApplicationDbContext(DbContextOptions options, IPublisher publisher) : base(options)
         {
-
+            _publisher = publisher;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -17,5 +19,28 @@ namespace RentACar.Infrastructure
             base.OnModelCreating(modelBuilder);
         }
 
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            var result = await base.SaveChangesAsync(cancellationToken);
+
+            await PublishDomainEventsAsync();
+
+            return result;
+        }
+
+        private async Task PublishDomainEventsAsync()
+        {
+            var domainEvents = ChangeTracker.Entries<Entity>().Select(e => e.Entity).ToList().SelectMany(e =>
+            {
+                var domainEvents = e.GetDomainEvents();
+                e.ClearDomainEvents();
+                return domainEvents;
+            }).ToList();
+
+            foreach (var domainEvent in domainEvents)
+            {
+                await _publisher.Publish(domainEvent);
+            }
+        }
     }
 }
