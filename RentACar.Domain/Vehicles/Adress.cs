@@ -2,10 +2,10 @@
 {
     public record Adress
     {
-        string? Direction;
-        string? Department;
-        string? Province;
-        string? City;
-        string? Country;
+        string Direction;
+        string Department;
+        string Province;
+        string City;
+        string Country;
     }
 }

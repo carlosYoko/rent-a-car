@@ -7,6 +7,8 @@ namespace RentACar.Domain.Rents
 {
     public sealed class Rent : Entity
     {
+        private Rent() { }
+
         public Rent(
             Guid id,
             Guid vehicleId,

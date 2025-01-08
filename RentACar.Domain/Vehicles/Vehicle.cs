@@ -5,6 +5,8 @@ namespace RentACar.Domain.Vehicles
 {
     public sealed class Vehicle : Entity
     {
+        public Vehicle() { }
+
         public Vehicle(
             Guid id,
             Model model,
@@ -27,7 +29,7 @@ namespace RentACar.Domain.Vehicles
 
         public Model? Model { get; private set; }
         public Vin? Vin { get; private set; }
-        public Adress? Adress { get; private set; }
+        public Adress Adress { get; private set; }
         public Currency? Price { get; private set; }
         public Currency? Maintenance { get; private set; }
         public DateTime? DateLastRent { get; internal set; }

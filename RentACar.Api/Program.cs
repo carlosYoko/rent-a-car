@@ -1,3 +1,4 @@
+using RentACar.Api.Extensions;
 using RentACar.Application;
 using RentACar.Infrastructure;
 
@@ -11,6 +12,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 // Add services to the container.
 
 var app = builder.Build();
+app.ApplyMigration();
 
 // Configure the HTTP request pipeline.
 app.MapControllers();
