@@ -13,6 +13,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 app.ApplyMigration();
+app.SeedData();
 
 // Configure the HTTP request pipeline.
 app.MapControllers();
