@@ -25,47 +25,35 @@ namespace RentACar.Application.Vehicles.SearchVehicles
             }
 
             const string sql = """
-                    SELECT
-                        a.id AS Id,
-                        a.model AS Model,
-                        a.vin AS Vin,
-                        a.price_amount AS Price,
-                        a.currency AS Currency,
-                        a.direction_country AS Country,
-                        a.direction_department AS Department,
-                        a.direction_province AS Province,
-                        a.direction_city AS City,
-                        a.direction_street AS Street
-                    FROM vehiculos AS a
-                    WHERE NOT EXISTS
-                    (
-                        SELECT 1
-                        FROM alquileres AS b
-                        WHERE 
-                            b.vehicle_id = a.id
-                            b.duration_start <= @DateEnd AND
-                            b.duration_finish >= @DateStart AND
-                            b.status = ANY(@ActiveRentStatuses)
-                    )
-            """;
+                            SELECT
+                                a.id AS Id,
+                                a.model AS Model,
+                                a.vin AS Vin,
+                                a.price_amount AS Price,
+                                a.price_currency_type AS Currency
+                            FROM "Vehicles" AS a
+                            WHERE NOT EXISTS
+                            (
+                                SELECT 1
+                                FROM "rents" AS b
+                                WHERE 
+                                    b.vehicle_id = a.id AND
+                                    b.duration_start <= @DateEnd AND
+                                    b.duration_finish >= @DateStart AND
+                                    b.status = ANY(@ActiveRentStatuses)
+                            )
+                        """;
 
             using var connection = _sqlConnectionFactory.CreateConnection();
-            var vehicles = await connection.QueryAsync<VehicleResponse, DirectionResponse, VehicleResponse>
-                (
-                    sql,
-                    (vehicle, direction) =>
-                    {
-                        vehicle.Direction = direction;
-                        return vehicle;
-                    },
-                    new
-                    {
-                        DateStart = request.dateStart,
-                        DateEnd = request.dateEnd,
-                        ActiveRentStatuses
-                    },
-                    splitOn: "Country"
-                );
+            var vehicles = await connection.QueryAsync<VehicleResponse>(
+                sql,
+                new
+                {
+                    DateStart = request.dateStart,
+                    DateEnd = request.dateEnd,
+                    ActiveRentStatuses
+                }
+            );
 
             return vehicles.ToList();
         }
