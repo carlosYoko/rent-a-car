@@ -15,6 +15,8 @@ var app = builder.Build();
 app.ApplyMigration();
 app.SeedData();
 
+app.UseCustomExcepcionnHandler();
+
 // Configure the HTTP request pipeline.
 app.MapControllers();
 

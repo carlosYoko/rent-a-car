@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RentACar.Api.Middleware;
 using RentACar.Infrastructure;
 
 namespace RentACar.Api.Extensions
@@ -26,5 +27,9 @@ namespace RentACar.Api.Extensions
             }
         }
 
+        public static void UseCustomExcepcionnHandler(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
+        }
     }
 }
